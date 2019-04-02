@@ -83,6 +83,7 @@ function addActiveClass () {
             startY = cardCoord[i].coordY;
         }
     }
+    console.log(startX);
     function moveHorse (moveX, moveY) {
         let newX = startX + moveX;
         let newY = startY + moveY;
@@ -92,8 +93,14 @@ function addActiveClass () {
             }
         }
     }
-    for (let i=0; i<horseStep.length; i++) {
-        moveHorse (horseStep[i][0], horseStep[i][1]);
+    if (startX == undefined || startY == undefined) {
+        for (let i=0; i<cardField.length; i++) {
+            cardField[i].classList.add('active');
+        }
+    } else {
+            for (let i=0; i<horseStep.length; i++) {
+            moveHorse (horseStep[i][0], horseStep[i][1]);
+        }
     }
 }
 

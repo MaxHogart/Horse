@@ -83,7 +83,6 @@ function addActiveClass () {
             startY = cardCoord[i].coordY;
         }
     }
-    console.log(startX);
     function moveHorse (moveX, moveY) {
         let newX = startX + moveX;
         let newY = startY + moveY;

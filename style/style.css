@@ -85,3 +85,7 @@ body {
 .buttons button:active {
     background-color: var(--pushed);
 }
+
+.hint {
+    background-color: black;
+}

@@ -4,6 +4,9 @@ let activeCard; //массив з активними полями
 const horseStep = [[-2,-1],[-2,1],[-1,2],[1,2],[2,1],[2,-1],[-1,-2],[1,-2]]; //числа для розрахунку кроку
 let pushedCard = [];
 let num = 1; //змінна для нумерації
+let restartButton = document.querySelector('.buttons .restart');
+let hintButton = document.querySelector('.buttons .hint');
+
 
 for (let i=0; i<100; i++) {
     let card = document.createElement('div');
@@ -63,6 +66,9 @@ function pushedPush () {
 function removeActiveClass () {
     for (let i=0; i<100; i++) {
         cardField[i].classList.remove('active');
+        if (cardField[i].innerHTML == 'H') {
+            cardField[i].innerHTML = ' ';
+        }
     }
 } //видаляє клас активного поля
 
@@ -83,24 +89,82 @@ function addActiveClass () {
             startY = cardCoord[i].coordY;
         }
     }
-    function moveHorse (moveX, moveY) {
-        let newX = startX + moveX;
-        let newY = startY + moveY;
-        for (let i=0; i<100; i++) {
-            if (cardCoord[i].coordX == newX && cardCoord[i].coordY == newY && !cardCoord[i].card.classList.contains('pushed')) {
-                cardCoord[i].card.classList.add('active');
-            }
-        }
-    }
     if (startX == undefined || startY == undefined) {
         for (let i=0; i<cardField.length; i++) {
             cardField[i].classList.add('active');
         }
     } else {
             for (let i=0; i<horseStep.length; i++) {
-            moveHorse (horseStep[i][0], horseStep[i][1]);
+            moveHorse (horseStep[i][0], horseStep[i][1], startX, startY, 'active');
         }
     }
 }
+
+function moveHorse (moveX, moveY, startX, startY, addClass) {
+    let newX = startX + moveX;
+    let newY = startY + moveY;
+    for (let i=0; i<100; i++) {
+        if (cardCoord[i].coordX == newX && cardCoord[i].coordY == newY && !cardCoord[i].card.classList.contains('pushed') && !cardCoord[i].card.classList.contains('active')) {
+            cardCoord[i].card.classList.add(addClass);
+        }
+    }
+}
+
+restartButton.addEventListener('click', function () {
+    for (let i=0; i<cardField.length; i++) {
+        if (cardField[i].classList.contains('pushed')) {
+            cardField[i].removeEventListener('click', pushedPush);
+            cardField[i].classList.remove('pushed');
+            cardField[i].innerHTML = " ";
+        }
+    }
+    pushedCard = [];
+    num = 1;
+    removeActiveClass();
+    addActiveClass();
+    activePush(); 
+});
+
+hintButton.addEventListener('click', hintFunction);
+
+function hintFunction () {
+    if (pushedCard.length == 0) {
+        for (let i=0; i<cardField.length; i++) {
+            cardField[i].innerHTML = 'H';
+        }
+    } else {
+        let counter = 10;
+        for (let i=0; i<activeCard.length; i++) {
+            let startX;
+            let startY;
+            for (let o=0; o<100; o++) {
+                if (cardCoord[o].card==activeCard[i]) {
+                    startX = cardCoord[o].coordX;
+                    startY = cardCoord[o].coordY;
+                }
+            }
+            let hintCard;
+            for (let i=0; i<horseStep.length; i++) {
+                moveHorse (horseStep[i][0], horseStep[i][1], startX, startY, 'hint');
+            }
+            hintCard = document.querySelectorAll('.wrapper .hint');
+            if (counter > hintCard.length){
+                counter = hintCard.length;
+                for (let i=0; i<activeCard.length; i++) {
+                    if (activeCard[i].innerHTML == 'H') {
+                        activeCard[i].innerHTML = ' ';
+                    }
+                }
+                activeCard[i].innerHTML = 'H';
+                
+            }
+            for (let i=0; i<hintCard.length; i++) {
+                hintCard[i].classList.remove('hint');
+            }
+        }
+    }
+}
+
+
 
 

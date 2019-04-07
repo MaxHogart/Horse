@@ -66,8 +66,8 @@ function pushedPush () {
 function removeActiveClass () {
     for (let i=0; i<100; i++) {
         cardField[i].classList.remove('active');
-        if (cardField[i].innerHTML == 'H') {
-            cardField[i].innerHTML = ' ';
+        if (cardField[i].classList.contains('hintCard')) {
+            cardField[i].classList.remove('hintCard');
         }
     }
 } //видаляє клас активного поля
@@ -130,7 +130,7 @@ hintButton.addEventListener('click', hintFunction);
 function hintFunction () {
     if (pushedCard.length == 0) {
         for (let i=0; i<cardField.length; i++) {
-            cardField[i].innerHTML = 'H';
+            cardField[i].classList.add('hintCard');
         }
     } else {
         let counter = 10;
@@ -151,11 +151,11 @@ function hintFunction () {
             if (counter > hintCard.length){
                 counter = hintCard.length;
                 for (let i=0; i<activeCard.length; i++) {
-                    if (activeCard[i].innerHTML == 'H') {
-                        activeCard[i].innerHTML = ' ';
+                    if (activeCard[i].classList.contains('hintCard')) {
+                        activeCard[i].classList.remove('hintCard');
                     }
                 }
-                activeCard[i].innerHTML = 'H';
+                activeCard[i].classList.add('hintCard');
                 
             }
             for (let i=0; i<hintCard.length; i++) {

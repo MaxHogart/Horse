@@ -86,6 +86,6 @@ body {
     background-color: var(--pushed);
 }
 
-.hint {
-    background-color: black;
+.hintCard {
+    background-color: var(--button);
 }

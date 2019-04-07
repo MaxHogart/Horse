@@ -6,6 +6,8 @@ let pushedCard = [];
 let num = 1; //змінна для нумерації
 let restartButton = document.querySelector('.buttons .restart');
 let hintButton = document.querySelector('.buttons .hint');
+let alertField = document.querySelector('.alert');
+let body = document.querySelector('body');
 
 
 for (let i=0; i<100; i++) {
@@ -41,9 +43,31 @@ function activePush () {
         activeCard[i].addEventListener('click', addActiveClass);
         activeCard[i].addEventListener('click', activePush);
     }
+    if (activeCard.length == 0) {
+        if (num > 100) {
+           alertFunc({
+               className: 'endGame',
+               text: '<h1>Congratulation</h1><p>You win the game</p>'
+           }) 
+        } else {
+            alertFunc({
+            className: 'endGame',
+            text: '<h1>So bad</h1><p>You lose the game</p>'
+            })
+        }
+    }
 } //функція для подій при натисканні на активне поле
 
 activePush(); //запуск функції для прикріплення подій
+
+function alertFunc (obj) {
+    alertField.classList.add(obj.className);
+    alertField.innerHTML = obj.text;
+}
+
+body.addEventListener('click', function () {
+    alertField.classList.remove('endGame');
+})
 
 function pushedPush () {
     let indArr = this.innerHTML-1;

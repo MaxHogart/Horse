@@ -45,15 +45,18 @@ function activePush () {
     }
     if (activeCard.length == 0) {
         if (num > 100) {
-           alertFunc({
-               className: 'endGame',
-               text: '<h1>Congratulation</h1><p>You win the game</p>'
-           }) 
+           setTimeout(function() {
+                alertFunc({
+                className: 'endGame',
+                text: '<h1>Congratulation</h1><p>You win the game</p>'
+                })}, 0)
         } else {
-            alertFunc({
-            className: 'endGame',
-            text: '<h1>So bad</h1><p>You lose the game</p>'
-            })
+            setTimeout(function() {
+                alertFunc({
+                className: 'endGame',
+                text: '<h1>So bad</h1><p>You lose the game</p>'
+                })
+            }, 0)
         }
     }
 } //функція для подій при натисканні на активне поле

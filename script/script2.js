@@ -176,7 +176,13 @@ function hintFunction () {
                     }
                 }
                 activeCard[i].classList.add('hintCard');
-                
+                setTimeout( function () {
+                    for (let i=0; i<activeCard.length; i++) {
+                        if (activeCard[i].classList.contains('hintCard')) {
+                            activeCard[i].classList.remove('hintCard');
+                        }
+                    }
+                }, 3000)
             }
             for (let i=0; i<hintCard.length; i++) {
                 hintCard[i].classList.remove('hint');

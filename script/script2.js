@@ -65,10 +65,6 @@ function alertFunc (obj) {
     alertField.innerHTML = obj.text;
 }
 
-body.addEventListener('click', function () {
-    alertField.classList.remove('endGame');
-})
-
 function pushedPush () {
     let indArr = this.innerHTML-1;
     let delElem = pushedCard.splice(indArr, pushedCard.length-indArr);
@@ -188,6 +184,42 @@ function hintFunction () {
         }
     }
 }
+
+alertFunc({
+    className: 'endGame',
+    text: '<p>Would you like to pass tutorial?</p><button>YES</button><button>NO</button>'
+    })
+
+let btnYes = document.querySelector('.alert button');
+
+function tutorialStart () {
+    alertFunc({
+        className: 'tutorial',
+        text: '<p>Push on any square on the field</p>'
+    })
+    for (let i = 0; i<cardField.length; i++) {
+        cardField[i].addEventListener('click', tutorialThree);
+    }
+    function tutorialThree () {
+        setTimeout ( function () {
+            alertFunc({
+                className: 'tutorial',
+                text: '<p>Square has changed color and has displayed a number. The goal of the game is to fill whole game field by numbers from 1 to 100. the next move can be done like chess horse moving. Try to do this on flashing square.</p>'
+            })}, 0)
+        for (let i = 0; i<cardField.length; i++) {
+            cardField[i].removeEventListener('click', tutorialThree);
+        }
+    }
+}
+
+btnYes.addEventListener('click', function () {
+    setTimeout (tutorialStart, 0)
+});
+
+body.addEventListener('click', function () {
+    alertField.classList.remove('endGame');
+    alertField.classList.remove('tutorial');
+})
 
 
 

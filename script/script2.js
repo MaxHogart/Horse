@@ -210,11 +210,39 @@ function tutorialStart () {
         setTimeout ( function () {
             alertFunc({
                 className: 'tutorial',
-                text: '<p>Square has changed color and has displayed a number. The goal of the game is to fill whole game field by numbers from 1 to 100. the next move can be done like chess horse moving. Try to do this on flashing square.</p>'
+                text: '<p>Square has changed color and has displayed a number. The goal of the game is to fill whole game field by numbers from 1 to 100. the next move can be done like chess horse moving. Try to do this on any highlighted square around square whis number.</p>'
             })}, 0)
         for (let i = 0; i<cardField.length; i++) {
             cardField[i].removeEventListener('click', tutorialThree);
         }
+        for (let i=0; i<activeCard.length; i++) {
+            activeCard[i].addEventListener('click', tutorialFour);
+        }
+    }
+    function tutorialFour () {
+        setTimeout( function () {
+            alertFunc({
+                className: 'tutorial',
+                text: '<p>You can cansel your move by pushing on any square whis numbers. Try it.</p>'
+            })
+        }, 0)
+        for (let i = 0; i<cardField.length; i++) {
+            cardField[i].removeEventListener('click', tutorialFour);
+        }
+        for (let i = 0; i<pushedCard.length; i++) {
+            pushedCard[i].addEventListener('click', tutorialFive);
+        }
+    }
+    function tutorialFive () {
+        setTimeout( function () {
+            alertFunc({
+                className: 'tutorial',
+                text: '<p>This is great. You have passed the tutorial</p>'
+            })
+            for (let i = 0; i<cardField.length; i++) {
+                cardField[i].removeEventListener('click', tutorialFive);
+            }
+        })
     }
 }
 

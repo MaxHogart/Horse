@@ -2,7 +2,7 @@ const wrapper = document.querySelector('.wrapper'); //контейнер
 let cardCoord = []; //массив об'єктів з координатами
 let activeCard; //массив з активними полями
 const horseStep = [[-2,-1],[-2,1],[-1,2],[1,2],[2,1],[2,-1],[-1,-2],[1,-2]]; //числа для розрахунку кроку
-let pushedCard = [];
+let pushedCard = []; //массив для натиснутих квадратів
 let num = 1; //змінна для нумерації
 let restartButton = document.querySelector('.buttons .restart');
 let hintButton = document.querySelector('.buttons .hint');
@@ -27,7 +27,7 @@ function cardObject (i) {
 
 for (let i=0; i<100; i++) {
     cardCoord[i] = new cardObject(i);
-} //створюємо массив з об'ктами полів і карток
+} //створюємо массив з об'єктами полів і координат
 
 function activePush () {
     for (let i=0; i<100; i++) {
@@ -58,7 +58,7 @@ function activePush () {
                 })
             }, 0)
         }
-    }
+    } //перевірка на виграш або програш
 } //функція для подій при натисканні на активне поле
 
 activePush(); //запуск функції для прикріплення подій
@@ -66,7 +66,7 @@ activePush(); //запуск функції для прикріплення по
 function alertFunc (obj) {
     alertField.classList.add(obj.className);
     alertField.innerHTML = obj.text;
-}
+} //функція для створення вспливаючих вікон
 
 function pushedPush () {
     let indArr = this.innerHTML-1;
@@ -84,14 +84,11 @@ function pushedPush () {
         }
     }
     num = pushedCard.length+1;
-}
+}//функція для відміни ходів
 
 function removeActiveClass () {
     for (let i=0; i<100; i++) {
         cardField[i].classList.remove('active');
-        if (cardField[i].classList.contains('hintCard')) {
-            cardField[i].classList.remove('hintCard');
-        }
     }
 } //видаляє клас активного поля
 
@@ -118,20 +115,20 @@ function addActiveClass () {
         }
     } else {
             for (let i=0; i<horseStep.length; i++) {
-            moveHorse (horseStep[i][0], horseStep[i][1], startX, startY, 'active');
+            moveHorse(horseStep[i][0], horseStep[i][1], startX, startY, 'active');
         }
     }
-}
+} //додавання класу до необхідних
 
 function moveHorse (moveX, moveY, startX, startY, addClass) {
     let newX = startX + moveX;
     let newY = startY + moveY;
     for (let i=0; i<100; i++) {
-        if (cardCoord[i].coordX == newX && cardCoord[i].coordY == newY && !cardCoord[i].card.classList.contains('pushed') && !cardCoord[i].card.classList.contains('active')) {
+        if (cardCoord[i].coordX == newX && cardCoord[i].coordY == newY && !cardCoord[i].card.classList.contains('pushed')) {
             cardCoord[i].card.classList.add(addClass);
         }
     }
-}
+} //функція для руху коня
 
 restartButton.addEventListener('click', function () {
     for (let i=0; i<cardField.length; i++) {
@@ -143,10 +140,9 @@ restartButton.addEventListener('click', function () {
     }
     pushedCard = [];
     num = 1;
-    removeActiveClass();
     addActiveClass();
     activePush(); 
-});
+}); //функція для кнопки перезапуск
 
 hintButton.addEventListener('click', hintFunction);
 
@@ -166,24 +162,19 @@ function hintFunction () {
                     startY = cardCoord[o].coordY;
                 }
             }
-            let hintCard;
             for (let i=0; i<horseStep.length; i++) {
                 moveHorse (horseStep[i][0], horseStep[i][1], startX, startY, 'hint');
             }
-            hintCard = document.querySelectorAll('.wrapper .hint');
+            let hintCard = document.querySelectorAll('.wrapper .hint');
             if (counter > hintCard.length){
                 counter = hintCard.length;
                 for (let i=0; i<activeCard.length; i++) {
-                    if (activeCard[i].classList.contains('hintCard')) {
-                        activeCard[i].classList.remove('hintCard');
+                    activeCard[i].classList.remove('hintCard');
                     }
-                }
                 activeCard[i].classList.add('hintCard');
                 setTimeout( function () {
-                    for (let i=0; i<activeCard.length; i++) {
-                        if (activeCard[i].classList.contains('hintCard')) {
-                            activeCard[i].classList.remove('hintCard');
-                        }
+                    for (let i=0; i<cardField.length; i++) {
+                        cardField[i].classList.remove('hintCard');
                     }
                 }, 3000)
             }
@@ -192,14 +183,12 @@ function hintFunction () {
             }
         }
     }
-}
+} //функція для підказки
 
 alertFunc({
     className: 'endGame',
     text: '<p>Would you like to pass tutorial?</p><button>YES</button><button>NO</button>'
-    })
-
-let btnYes = document.querySelector('.alert button');
+    }) //початок навчання
 
 function tutorialStart () {
     alertFunc({
@@ -214,7 +203,8 @@ function tutorialStart () {
             alertFunc({
                 className: 'tutorial',
                 text: '<p>Square has changed color and has displayed a number. The goal of the game is to fill whole game field by numbers from 1 to 100. the next move can be done like chess horse moving. Try to do this on any highlighted square around square whis number.</p>'
-            })}, 0)
+            })
+        }, 0)
         for (let i = 0; i<cardField.length; i++) {
             cardField[i].removeEventListener('click', tutorialThree);
         }
@@ -245,11 +235,11 @@ function tutorialStart () {
             for (let i = 0; i<cardField.length; i++) {
                 cardField[i].removeEventListener('click', tutorialFive);
             }
-        })
+        }, 0)
     }
 }
 
-btnYes.addEventListener('click', function () {
+document.querySelector('.alert button').addEventListener('click', function () {
     setTimeout (tutorialStart, 0)
 });
 

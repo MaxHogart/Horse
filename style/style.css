@@ -80,10 +80,6 @@ button {
     margin: 5px;
 }
 
-.hint {
-    display: none;
-}
-
 button:hover {
     background-color: var(--active);
     transition: 0.5s;

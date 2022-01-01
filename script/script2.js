@@ -48,13 +48,13 @@ function activePush () {
            setTimeout(function() {
                 alertFunc({
                 className: 'endGame',
-                text: '<h1>Congratulation</h1><p>You win the game</p>'
+                text: '<h1>Поздравляю с победой</h1><p>Можешь зайти ко мне за второй частью подарка</p>'
                 })}, 0)
         } else {
             setTimeout(function() {
                 alertFunc({
                 className: 'endGame',
-                text: '<h1>So bad</h1><p>You lose the game</p>'
+                text: '<h1>Сочуствую</h1><p>В следующий раз получится, если нужна помощь ты знаешь к кому обратиться</p>'
                 })
             }, 0)
         }
@@ -187,13 +187,13 @@ function hintFunction () {
 
 alertFunc({
     className: 'endGame',
-    text: '<p>Would you like to pass tutorial?</p><button>YES</button><button>NO</button>'
+    text: '<p>С Новым годом, Чайльд. Это первая часть твоего подарка. Головоломка, которую нужно разгадать для получения второй части. Рассказать подробнее, как тут всё работает?</p><button>Конечно</button><button>Сам cмогу</button>'
     }) //початок навчання
 
 function tutorialStart () {
     alertFunc({
         className: 'tutorial',
-        text: '<p>Push on any square on the field</p>'
+        text: '<p>Укажи на любой из камней на поле</p>'
     })
     for (let i = 0; i<cardField.length; i++) {
         cardField[i].addEventListener('click', tutorialThree);
@@ -202,7 +202,7 @@ function tutorialStart () {
         setTimeout ( function () {
             alertFunc({
                 className: 'tutorial',
-                text: '<p>Square has changed color and has displayed a number. The goal of the game is to fill whole game field by numbers from 1 to 100. the next move can be done like chess horse moving. Try to do this on any highlighted square around square whis number.</p>'
+                text: '<p>Камень перевернулся. Цель игры перевернуть все камни. Следующий ход ты можешь сделать будто ходишь конём. Можешь попробовать перевернуть выделенный камень или перевернуть тот камень, что переворачивал ранее</p>'
             })
         }, 0)
         for (let i = 0; i<cardField.length; i++) {
@@ -216,7 +216,7 @@ function tutorialStart () {
         setTimeout( function () {
             alertFunc({
                 className: 'tutorial',
-                text: '<p>You can cansel your move by pushing on any square whis numbers. Try it.</p>'
+                text: '<p>Можешь отменить свой ход перевернув камень, что переворачивал ранее. Попробуй.</p>'
             })
         }, 0)
         for (let i = 0; i<cardField.length; i++) {
@@ -230,7 +230,7 @@ function tutorialStart () {
         setTimeout( function () {
             alertFunc({
                 className: 'tutorial',
-                text: '<p>This is great. You have passed the tutorial</p>'
+                text: '<p>С тебя получился хороший ученик, продолжай в том же духе.</p>'
             })
             for (let i = 0; i<cardField.length; i++) {
                 cardField[i].removeEventListener('click', tutorialFive);
